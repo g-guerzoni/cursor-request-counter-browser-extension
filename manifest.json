@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Cursor Request Counter",
+  "version": "1.0",
+  "description": "Track Cursor.com API usage statistics",
+  "icons": {
+    "16": "dist/icons/icon16.png",
+    "48": "dist/icons/icon48.png",
+    "128": "dist/icons/icon128.png"
+  },
+  "permissions": [
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.cursor.com/*"
+  ],
+  "action": {
+    "default_popup": "dist/popup.html",
+    "default_icon": {
+      "16": "dist/icons/icon16.png",
+      "48": "dist/icons/icon48.png",
+      "128": "dist/icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "dist/background.js"
+  }
+} 
