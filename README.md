@@ -2,7 +2,7 @@
 
 A browser extension to monitor your Cursor API usage, including request counts and token consumption.
 
-![Uploading screenshot (1).png…]()
+![screenshot (1)](https://github.com/user-attachments/assets/b625686a-e21d-4628-8b41-abe95fe737e1)
 
 ## Features
 
