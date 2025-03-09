@@ -2,6 +2,8 @@
 
 A browser extension to monitor your Cursor API usage, including request counts and token consumption.
 
+![Uploading screenshot (1).png…]()
+
 ## Features
 
 - Real-time tracking of API requests made to Cursor.so
