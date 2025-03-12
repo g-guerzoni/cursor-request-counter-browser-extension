@@ -20,7 +20,7 @@ A browser extension to monitor your Cursor API usage, including request counts a
 Try out the extention at Google Chrome store.
 
 ```bash
-https://chromewebstore.google.com/detail/dafeoklakifgkoehabbdfljakipohaii?utm_source=item-share-cb
+https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii
 ```
 
 ## Installation
