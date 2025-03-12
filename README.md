@@ -16,6 +16,13 @@ A browser extension to monitor your Cursor API usage, including request counts a
 - Easy access to Cursor settings
 - Automatic refresh functionality
 
+## 🟠 Chrome Extension Store 
+Try out the extention at Google Chrome store.
+
+```bash
+https://chromewebstore.google.com/detail/dafeoklakifgkoehabbdfljakipohaii?utm_source=item-share-cb
+```
+
 ## Installation
 
 1. Clone this repository:
