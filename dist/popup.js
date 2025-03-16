@@ -46,7 +46,7 @@ function updateStats(stats, elements) {
 function showError(message, elements, isAuthError = false) {
     if (elements.errorMessage) {
         if (isAuthError) {
-            elements.errorMessage.innerHTML = `${message}<br><br>Please <a href="https://cursor.com" target="_blank">login to Cursor</a> and go to Settings (button in the top).`;
+            elements.errorMessage.innerHTML = `${message}<br><br>Please <a href="https://www.cursor.com/settings" target="_blank">login to Cursor</a> and try again.`;
             elements.errorMessage.style.display = "block";
         }
         else {
