@@ -68,7 +68,6 @@ function showError(message: string, elements: Elements, isAuthError: boolean = f
   if (elements.errorMessage) {
     if (isAuthError) {
       elements.errorMessage.innerHTML = `${message}<br><br>Please <a href="https://www.cursor.com/settings" target="_blank">login to Cursor</a> and try again.`;
-      elements.errorMessage.innerHTML = `${message}<br><br>Please <a href="https://cursor.com" target="_blank">login to Cursor</a> and go to Settings (button in the top).`;
       elements.errorMessage.style.display = "block";
     } else {
       elements.errorMessage.textContent = message;
