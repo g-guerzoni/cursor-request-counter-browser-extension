@@ -1,6 +1,6 @@
 {
   "name": "cursor-request-counter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Track Cursor.com API usage statistics",
   "scripts": {
     "clean": "rm -rf dist/*",
