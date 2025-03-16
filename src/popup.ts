@@ -130,6 +130,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     elements.refreshButton.addEventListener("click", () => fetchStats(elements));
   }
 
-  // Fetch fresh stats immediately
+  document.getElementById('githubLink')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (e.target instanceof HTMLAnchorElement) {
+      chrome.tabs.create({ url: e.target.href });
+    }
+  });
+
   await fetchStats(elements);
 });
