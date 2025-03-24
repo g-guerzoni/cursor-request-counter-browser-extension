@@ -32,9 +32,9 @@ async function fetchCursorStats(): Promise<{ success: boolean; stats?: CursorSta
     
     const gpt4Data = data['gpt-4'];
     const stats: CursorStats = {
-      requestsMade: gpt4Data.numRequestsTotal,
+      requestsMade: gpt4Data.numRequests,
       maxRequests: gpt4Data.maxRequestUsage ?? 0,
-      remainingRequests: (gpt4Data.maxRequestUsage ?? 0) - gpt4Data.numRequestsTotal,
+      remainingRequests: (gpt4Data.maxRequestUsage ?? 0) - gpt4Data.numRequests,
       tokensUsed: gpt4Data.numTokens
     };
     
