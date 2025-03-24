@@ -9,9 +9,9 @@ A browser extension to monitor your Cursor API usage, including request counts a
 - Real-time tracking of API requests made to Cursor.so
 - Visual progress bar showing request usage
 - Color-coded indicators for usage levels:
-  - Green: Normal usage (< 70%)
-  - Orange: Warning zone (70-89%)
-  - Red: Critical zone (90%+)
+  - Green: Normal usage (< 75%)
+  - Orange: Warning zone (75-94%)
+  - Red: Critical zone (95%+)
 - Token usage tracking
 - Easy access to Cursor settings
 - Automatic refresh functionality
@@ -99,3 +99,16 @@ By using my Google Chrome Extensions, you signify your consent and agreement to 
 ## Feedback
 
 If you have questions or concerns about this Privacy Policy, you can contact me by [email](mailto:guerzoni.guilherme@gmail.com).
+
+## Changelog
+
+### v1.0.2
+- Feat: Change the progress bar color based on the usage percentage.
+- Fix: Replacing `numRequestsTotal` by `numRequests`.
+- Doc: Adding extension screenshots
+
+### v1.0.1
+- Fix: Open Github repo link in a new tab.
+
+### v1.0.0
+- Initial codebase.
