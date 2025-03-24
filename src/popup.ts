@@ -39,12 +39,12 @@ function updateStats(stats: CursorStats, elements: Elements): void {
   if (elements.requestsMade) {
     const usagePercentage = (stats.requestsMade / stats.maxRequests) * 100;
     elements.requestsMade.textContent = stats.requestsMade.toString();
-    elements.requestsMade.style.fontWeight = 'bold';
+    elements.requestsMade.style.fontWeight = "bold";
 
-    if (usagePercentage >= 90) {
+    if (usagePercentage >= 95) {
       elements.requestsMade.style.color = "#F93827";
-    } else if (usagePercentage >= 70) {
-      elements.requestsMade.style.color = "#FF9D23";
+    } else if (usagePercentage >= 75) {
+      elements.requestsMade.style.color = "#E9B33B";
     } else {
       elements.requestsMade.style.color = "#16C47F";
     }
@@ -61,13 +61,22 @@ function updateStats(stats: CursorStats, elements: Elements): void {
   if (elements.progressBar && stats.maxRequests > 0) {
     const percentage = ((stats.requestsMade / stats.maxRequests) * 100).toFixed(1);
     elements.progressBar.style.width = `${percentage}%`;
+
+    const usagePercentage = parseFloat(percentage);
+    if (usagePercentage >= 95) {
+      elements.progressBar.style.backgroundColor = "#F93827";
+    } else if (usagePercentage >= 75) {
+      elements.progressBar.style.backgroundColor = "#E9B33B";
+    } else if (usagePercentage >= 50) {
+      elements.progressBar.style.backgroundColor = "#16C47F";
+    }
   }
 }
 
 function showError(message: string, elements: Elements, isAuthError: boolean = false): void {
   if (elements.errorMessage) {
     if (isAuthError) {
-      elements.errorMessage.innerHTML = `${message}<br><br>Please <a href="https://www.cursor.com/settings" target="_blank">login to Cursor</a> and try again.`;
+      elements.errorMessage.innerHTML = `<p>${message}</p><p>Please <a href="https://www.cursor.com/settings" target="_blank">login to Cursor</a> and try again.</p>`;
       elements.errorMessage.style.display = "block";
     } else {
       elements.errorMessage.textContent = message;
@@ -130,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     elements.refreshButton.addEventListener("click", () => fetchStats(elements));
   }
 
-  document.getElementById('githubLink')?.addEventListener('click', (e) => {
+  document.getElementById("githubLink")?.addEventListener("click", (e) => {
     e.preventDefault();
     if (e.target instanceof HTMLAnchorElement) {
       chrome.tabs.create({ url: e.target.href });
