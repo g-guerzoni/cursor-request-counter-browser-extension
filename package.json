@@ -1,16 +1,34 @@
 {
   "name": "cursor-request-counter",
-  "version": "1.1.0",
-  "description": "Track Cursor.com API usage statistics",
+  "version": "1.0.0",
+  "description": "Track your Cursor AI requests and usage in real-time",
   "scripts": {
-    "clean": "rm -rf dist/*",
-    "copy-html": "cp src/popup.html dist/",
-    "copy-icons": "cp -r src/icons dist/",
-    "build": "npm run clean && tsc && npm run copy-html && npm run copy-icons",
-    "watch": "tsc -w"
+    "clean": "rm -rf dist",
+    "build": "node scripts/build.js",
+    "dev": "tsc --watch",
+    "start": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g-guerzoni/cursor-request-counter-browser-extension.git"
+  },
+  "keywords": [
+    "cursor",
+    "chrome-extension",
+    "typescript"
+  ],
+  "author": "Guilherme Guerzoni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g-guerzoni/cursor-request-counter-browser-extension/issues"
+  },
+  "homepage": "https://github.com/g-guerzoni/cursor-request-counter-browser-extension#readme",
   "devDependencies": {
     "@types/chrome": "^0.0.260",
-    "typescript": "^5.3.3"
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.9.2",
+    "typescript": "^5.3.3",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   }
-} 
+}

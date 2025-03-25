@@ -1,195 +1,123 @@
 /// <reference types="chrome"/>
 
-interface CursorStats {
-  requestsMade: number;
-  maxRequests: number;
-  remainingRequests: number;
-  tokensUsed: number;
-}
+import { COLORS, ELEMENT_IDS, MESSAGES } from './constants.js';
+import type { CursorStats, DOMElements } from './types/cursor';
+import {
+  getElements,
+  setElementDisplay,
+  setElementText,
+  setElementColor,
+  getColorByUsagePercentage,
+  formatDollars,
+  setProgressBarStyle
+} from './utils/dom.js';
 
-interface Elements {
-  requestsMade: HTMLElement | null;
-  maxRequests: HTMLElement | null;
-  remainingRequests: HTMLElement | null;
-  tokensUsed: HTMLElement | null;
-  refreshButton: HTMLButtonElement | null;
-  settingsButton: HTMLButtonElement | null;
-  spinner: HTMLElement | null;
-  errorMessage: HTMLElement | null;
-  statsContainer: HTMLElement | null;
-  progressBar: HTMLElement | null;
-  usageBasedRequests: HTMLElement | null;
-  usageBasedRequestsStatus: HTMLElement | null;
-  usageBasedRequestsCurrent: HTMLElement | null;
-  usageBasedRequestsHardLimit: HTMLElement | null;
-}
+function updateStats(stats: CursorStats, elements: DOMElements): void {
+  const usagePercentage = (stats.requestsMade / stats.maxRequests) * 100;
 
-function getElements(): Elements {
-  return {
-    requestsMade: document.getElementById("requestsMade"),
-    maxRequests: document.getElementById("maxRequests"),
-    remainingRequests: document.getElementById("remainingRequests"),
-    tokensUsed: document.getElementById("tokensUsed"),
-    refreshButton: document.getElementById("refreshData") as HTMLButtonElement,
-    settingsButton: document.getElementById("goToSettings") as HTMLButtonElement,
-    spinner: document.getElementById("loadingSpinner"),
-    errorMessage: document.getElementById("errorMessage"),
-    statsContainer: document.getElementById("statsContainer"),
-    progressBar: document.getElementById("requestsProgressBar"),
-    usageBasedRequests: document.getElementById("usageBasedRequests"),
-    usageBasedRequestsStatus: document.getElementById("usageBasedRequestsStatus"),
-    usageBasedRequestsCurrent: document.getElementById("usageBasedRequestsCurrent"),
-    usageBasedRequestsHardLimit: document.getElementById("usageBasedRequestsHardLimit"),
-  };
-}
-
-function updateStats(stats: CursorStats, elements: Elements): void {
   if (elements.requestsMade) {
-    const usagePercentage = (stats.requestsMade / stats.maxRequests) * 100;
-    elements.requestsMade.textContent = stats.requestsMade.toString();
+    setElementText(elements.requestsMade, stats.requestsMade.toString());
     elements.requestsMade.style.fontWeight = 'bold';
+    setElementColor(elements.requestsMade, getColorByUsagePercentage(usagePercentage));
+  }
 
-    if (usagePercentage >= 95) {
-      elements.requestsMade.style.color = "#F93827";
-    } else if (usagePercentage >= 75) {
-      elements.requestsMade.style.color = "#E9B33B";
-    } else {
-      elements.requestsMade.style.color = "#16C47F";
-    }
-  }
-  if (elements.maxRequests) {
-    elements.maxRequests.textContent = stats.maxRequests.toString();
-  }
-  if (elements.remainingRequests) {
-    elements.remainingRequests.textContent = stats.remainingRequests.toString();
-  }
-  if (elements.tokensUsed) {
-    elements.tokensUsed.textContent = stats.tokensUsed.toLocaleString();
-  }
+  setElementText(elements.maxRequests, stats.maxRequests.toString());
+  setElementText(elements.remainingRequests, stats.remainingRequests.toString());
+  setElementText(elements.tokensUsed, stats.tokensUsed.toLocaleString());
+
   if (elements.progressBar && stats.maxRequests > 0) {
-    const percentage = ((stats.requestsMade / stats.maxRequests) * 100).toFixed(1);
-    elements.progressBar.style.width = `${percentage}%`;
-    
-    const usagePercentage = parseFloat(percentage);
-    if (usagePercentage >= 95) {
-      elements.progressBar.style.backgroundColor = "#F93827";
-    } else if (usagePercentage >= 75) {
-      elements.progressBar.style.backgroundColor = "#E9B33B";
-    } else if (usagePercentage >= 50) {
-      elements.progressBar.style.backgroundColor = "#16C47F";
-    }
+    setProgressBarStyle(elements.progressBar, usagePercentage);
   }
 }
 
-function showPremiumStatus(isPremiumEnabled: boolean, elements: Elements): void {
-  if (elements.usageBasedRequests) {
-    elements.usageBasedRequests.style.display = isPremiumEnabled ? "block" : "none";
-  }
+function showPremiumStatus(isPremiumEnabled: boolean, elements: DOMElements): void {
+  setElementDisplay(elements.usageBasedRequests, isPremiumEnabled ? "block" : "none");
   
   if (elements.usageBasedRequestsStatus) {
     if (isPremiumEnabled) {
-      elements.usageBasedRequestsStatus.textContent = "On";
-      elements.usageBasedRequestsStatus.style.color = "#16C47F";
+      setElementText(elements.usageBasedRequestsStatus, "On");
+      setElementColor(elements.usageBasedRequestsStatus, COLORS.SUCCESS);
       elements.usageBasedRequestsStatus.style.fontWeight = "bold";
       
       fetchAndDisplayHardLimit(elements)
         .then(() => fetchAndDisplayMonthlyInvoice(elements))
         .catch(err => {
-          console.error('Error fetching premium data:', err);
+          console.error(MESSAGES.ERRORS.FETCH_PREMIUM, err);
         });
       
     } else {
-      elements.usageBasedRequestsStatus.textContent = "Off";
-      elements.usageBasedRequestsStatus.style.color = "#F93827"; 
+      setElementText(elements.usageBasedRequestsStatus, "Off");
+      setElementColor(elements.usageBasedRequestsStatus, COLORS.ERROR);
       elements.usageBasedRequestsStatus.style.fontWeight = "bold";
     }
   }
 }
 
-function updateHardLimit(hardLimit: number, elements: Elements): void {
-  if (elements.usageBasedRequestsHardLimit) {
-    elements.usageBasedRequestsHardLimit.textContent = `$${hardLimit.toString()}`;
-  }
+function updateHardLimit(hardLimit: number, elements: DOMElements): void {
+  setElementText(elements.usageBasedRequestsHardLimit, formatDollars(hardLimit * 100));
 }
 
-function updateCurrentUsage(totalCents: number, elements: Elements): void {
+function updateCurrentUsage(totalCents: number, elements: DOMElements): void {
   if (elements.usageBasedRequestsCurrent) {
-    const dollars = (totalCents / 100).toFixed(2);
-    elements.usageBasedRequestsCurrent.textContent = `$${dollars}`;
+    const cents = typeof totalCents === 'number' ? totalCents : 0;
+    setElementText(elements.usageBasedRequestsCurrent, formatDollars(cents));
     
     if (elements.usageBasedRequestsHardLimit) {
       const hardLimitText = elements.usageBasedRequestsHardLimit.textContent;
       if (hardLimitText && hardLimitText.startsWith('$')) {
         const hardLimitValue = parseFloat(hardLimitText.substring(1));
-        const currentValue = parseFloat(dollars);
+        const currentValue = cents / 100;
         
         if (!isNaN(hardLimitValue) && !isNaN(currentValue) && hardLimitValue > 0) {
           const usagePercentage = (currentValue / hardLimitValue) * 100;
           
           elements.usageBasedRequestsCurrent.style.fontWeight = 'bold';
-          
-          if (usagePercentage >= 95) {
-            elements.usageBasedRequestsCurrent.style.color = "#F93827";
-          } else if (usagePercentage >= 75) {
-            elements.usageBasedRequestsCurrent.style.color = "#E9B33B";
-          } else if (usagePercentage >= 50) {
-            elements.usageBasedRequestsCurrent.style.color = "#16C47F";
-          } else {
-            elements.usageBasedRequestsCurrent.style.color = "#16C47F";
-          }
+          setElementColor(elements.usageBasedRequestsCurrent, getColorByUsagePercentage(usagePercentage));
         }
       }
     }
   } else {
-    console.error('usageBasedRequestsCurrent element not found');
+    console.error(MESSAGES.ERRORS.USAGE_ELEMENT_NOT_FOUND);
   }
 }
 
-function showError(message: string, elements: Elements, isAuthError: boolean = false): void {
+function showError(message: string, elements: DOMElements, isAuthError: boolean = false): void {
   if (elements.errorMessage) {
     if (isAuthError) {
-      elements.errorMessage.innerHTML = `<p>${message}</p><p>Please <a href="https://www.cursor.com/settings" target="_blank">login to Cursor</a> and try again.</p>`;
-      elements.errorMessage.style.display = "block";
+      elements.errorMessage.innerHTML = `<p>${message}</p><p>${MESSAGES.AUTH.LOGIN_REQUIRED}</p>`;
+      setElementDisplay(elements.errorMessage, "block");
     } else {
-      elements.errorMessage.textContent = message;
-      elements.errorMessage.style.display = "block";
+      setElementText(elements.errorMessage, message);
+      setElementDisplay(elements.errorMessage, "block");
     }
   }
 }
 
-function hideError(elements: Elements): void {
-  if (elements.errorMessage) {
-    elements.errorMessage.style.display = "none";
-  }
+function hideError(elements: DOMElements): void {
+  setElementDisplay(elements.errorMessage, "none");
 }
 
-function setLoading(isLoading: boolean, elements: Elements): void {
-  if (elements.spinner) {
-    elements.spinner.style.display = isLoading ? "block" : "none";
-  }
+function setLoading(isLoading: boolean, elements: DOMElements): void {
+  setElementDisplay(elements.spinner, isLoading ? "block" : "none");
   if (elements.refreshButton) {
     elements.refreshButton.disabled = isLoading;
   }
-  if (elements.statsContainer) {
-    elements.statsContainer.style.display = isLoading ? "none" : "flex";
-  }
-  if (elements.usageBasedRequests) {
-    elements.usageBasedRequests.style.display = isLoading ? "none" : "block";
-  }
+  setElementDisplay(elements.statsContainer, isLoading ? "none" : "flex");
+  setElementDisplay(elements.usageBasedRequests, isLoading ? "none" : "block");
 }
 
-async function fetchAndDisplayHardLimit(elements: Elements): Promise<void> {
+async function fetchAndDisplayHardLimit(elements: DOMElements): Promise<void> {
   try {
     const response = await chrome.runtime.sendMessage({ action: "fetchHardLimit" });
     if (response.success && response.hardLimit) {
       updateHardLimit(response.hardLimit, elements);
     }
   } catch (error) {
-    console.error("Failed to fetch hard limit", error);
+    console.error(MESSAGES.ERRORS.FETCH_HARD_LIMIT, error);
   }
 }
 
-async function fetchAndDisplayMonthlyInvoice(elements: Elements): Promise<void> {
+async function fetchAndDisplayMonthlyInvoice(elements: DOMElements): Promise<void> {
   try {
     const response = await chrome.runtime.sendMessage({ action: "fetchMonthlyInvoice" });
     if (response.success && response.totalCents !== undefined) {
@@ -198,11 +126,11 @@ async function fetchAndDisplayMonthlyInvoice(elements: Elements): Promise<void> 
       console.error('Failed to get valid response from fetchMonthlyInvoice', response);
     }
   } catch (error) {
-    console.error("Failed to fetch monthly invoice", error);
+    console.error(MESSAGES.ERRORS.FETCH_INVOICE, error);
   }
 }
 
-async function fetchPremiumStatus(elements: Elements): Promise<boolean> {
+async function fetchPremiumStatus(elements: DOMElements): Promise<boolean> {
   try {
     const response = await chrome.runtime.sendMessage({ action: "fetchPremiumStatus" });
     if (response.success) {
@@ -211,12 +139,12 @@ async function fetchPremiumStatus(elements: Elements): Promise<boolean> {
       return isPremiumEnabled;
     }
   } catch (error) {
-    console.error("Failed to fetch premium status", error);
+    console.error(MESSAGES.ERRORS.FETCH_PREMIUM, error);
   }
   return false;
 }
 
-async function fetchStats(elements: Elements): Promise<void> {
+async function fetchStats(elements: DOMElements): Promise<void> {
   setLoading(true, elements);
   hideError(elements);
 
@@ -229,10 +157,10 @@ async function fetchStats(elements: Elements): Promise<void> {
       await fetchPremiumStatus(elements);
     } else {
       const isAuthError = response.error?.includes("401") || response.error?.includes("unauthorized");
-      showError(response.error || "Failed to fetch stats", elements, isAuthError);
+      showError(response.error || MESSAGES.ERRORS.FETCH_STATS, elements, isAuthError);
     }
   } catch (error) {
-    showError("Failed to fetch stats", elements);
+    showError(MESSAGES.ERRORS.FETCH_STATS, elements);
   } finally {
     setLoading(false, elements);
   }
@@ -242,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const elements = getElements();
 
   if (!elements.settingsButton) {
-    console.error("Settings button not found");
+    console.error(MESSAGES.ERRORS.SETTINGS_BUTTON_NOT_FOUND);
     return;
   }
 
@@ -254,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     elements.refreshButton.addEventListener("click", () => fetchStats(elements));
   }
 
-  document.getElementById('githubLink')?.addEventListener('click', (e) => {
+  document.getElementById(ELEMENT_IDS.GITHUB_LINK)?.addEventListener('click', (e) => {
     e.preventDefault();
     if (e.target instanceof HTMLAnchorElement) {
       chrome.tabs.create({ url: e.target.href });
@@ -262,7 +190,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (elements.usageBasedRequests) {
-    elements.usageBasedRequests.style.display = "none";
+    setElementDisplay(elements.usageBasedRequests, "none");
   }
 
   await fetchStats(elements);

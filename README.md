@@ -1,61 +1,75 @@
-# Cursor Request Counter Browser Extension
+# Cursor Request Counter
 
-A browser extension to monitor your Cursor API usage, including request counts and token consumption.
-
-![screenshot (1)](https://github.com/user-attachments/assets/b625686a-e21d-4628-8b41-abe95fe737e1)
+A Chrome extension to track your Cursor AI requests and usage in real-time.
 
 ## Features
 
-- Real-time tracking of API requests made to Cursor.so
-- Visual progress bar showing request usage
-- Color-coded indicators for usage levels:
-  - Green: Normal usage (< 75%)
-  - Orange: Warning zone (75-94%)
-  - Red: Critical zone (95%+)
-- Token usage tracking
-- Easy access to Cursor settings
-- Automatic refresh functionality
-
-## 🟠 Google Chrome Extension Store
-Try out the extension in the Google Chrome Store.
-
-```bash
-https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii
-```
+- Track the number of requests made
+- Monitor your remaining requests
+- View total tokens used
+- Track usage-based premium requests
+- Real-time progress bar
+- Automatic refresh on settings page
+- Dark mode interface
 
 ## Installation
 
-1. Clone this repository:
+1. Clone this repository
 ```bash
 git clone https://github.com/g-guerzoni/cursor-request-counter-browser-extension.git
 ```
 
-2. Install dependencies:
+2. Install dependencies
 ```bash
 npm install
 ```
 
-3. Build the extension:
+3. Build the extension
 ```bash
 npm run build
 ```
 
-4. Load the extension in your browser:
-   - Open Chrome/Edge and go to `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked"
-   - Select the `dist` folder from this project
+4. Load the extension in Chrome
+- Open Chrome and navigate to `chrome://extensions`
+- Enable "Developer mode"
+- Click "Load unpacked"
+- Select the `dist` folder from the project directory
 
 ## Development
 
-- Run development build with watch mode:
+1. Install dependencies
+```bash
+npm install
+```
+
+2. Start development server
 ```bash
 npm run dev
 ```
 
-- Build for production:
-```bash
-npm run build
+3. Make your changes
+- The extension will automatically rebuild when files change
+- Reload the extension in Chrome to see your changes
+
+## Project Structure
+
+```
+src/
+  types/           # TypeScript interfaces
+    cursor.ts
+  constants/       # Constants and configuration
+    index.ts
+  services/        # API services
+    api.ts
+  utils/          # Utility functions
+    dom.ts
+  styles/         # CSS styles
+    popup.css
+  assets/         # Icons and images
+    icons/
+  background.ts   # Chrome extension background script
+  popup.ts        # Popup UI logic
+  popup.html      # Popup UI structure
 ```
 
 ## Contributing
@@ -70,9 +84,10 @@ npm run build
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Disclaimer
+## Acknowledgments
 
-This is not an official product of Cursor. It is a personal project created to help users monitor their API usage. 
+- This is not an official product of Cursor
+- Icon made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com)
 
 ---
 
@@ -101,6 +116,10 @@ By using my Google Chrome Extensions, you signify your consent and agreement to 
 If you have questions or concerns about this Privacy Policy, you can contact me by [email](mailto:guerzoni.guilherme@gmail.com).
 
 ## Changelog
+
+### v2.0.0
+- Refactoring the entire codebase by organizing the folder structures and splitting files.
+- Feat: Creating a bundle while building with webpack. 
 
 ### v1.1.0
 - Feat: Introducing usage based limits and pricing 
