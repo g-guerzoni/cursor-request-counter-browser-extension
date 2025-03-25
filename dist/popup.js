@@ -12,13 +12,17 @@ function getElements() {
         errorMessage: document.getElementById("errorMessage"),
         statsContainer: document.getElementById("statsContainer"),
         progressBar: document.getElementById("requestsProgressBar"),
+        usageBasedRequests: document.getElementById("usageBasedRequests"),
+        usageBasedRequestsStatus: document.getElementById("usageBasedRequestsStatus"),
+        usageBasedRequestsCurrent: document.getElementById("usageBasedRequestsCurrent"),
+        usageBasedRequestsHardLimit: document.getElementById("usageBasedRequestsHardLimit"),
     };
 }
 function updateStats(stats, elements) {
     if (elements.requestsMade) {
         const usagePercentage = (stats.requestsMade / stats.maxRequests) * 100;
         elements.requestsMade.textContent = stats.requestsMade.toString();
-        elements.requestsMade.style.fontWeight = "bold";
+        elements.requestsMade.style.fontWeight = 'bold';
         if (usagePercentage >= 95) {
             elements.requestsMade.style.color = "#F93827";
         }
@@ -53,6 +57,65 @@ function updateStats(stats, elements) {
         }
     }
 }
+function showPremiumStatus(isPremiumEnabled, elements) {
+    if (elements.usageBasedRequests) {
+        elements.usageBasedRequests.style.display = isPremiumEnabled ? "block" : "none";
+    }
+    if (elements.usageBasedRequestsStatus) {
+        if (isPremiumEnabled) {
+            elements.usageBasedRequestsStatus.textContent = "On";
+            elements.usageBasedRequestsStatus.style.color = "#16C47F";
+            elements.usageBasedRequestsStatus.style.fontWeight = "bold";
+            fetchAndDisplayHardLimit(elements)
+                .then(() => fetchAndDisplayMonthlyInvoice(elements))
+                .catch(err => {
+                console.error('Error fetching premium data:', err);
+            });
+        }
+        else {
+            elements.usageBasedRequestsStatus.textContent = "Off";
+            elements.usageBasedRequestsStatus.style.color = "#F93827";
+            elements.usageBasedRequestsStatus.style.fontWeight = "bold";
+        }
+    }
+}
+function updateHardLimit(hardLimit, elements) {
+    if (elements.usageBasedRequestsHardLimit) {
+        elements.usageBasedRequestsHardLimit.textContent = `$${hardLimit.toString()}`;
+    }
+}
+function updateCurrentUsage(totalCents, elements) {
+    if (elements.usageBasedRequestsCurrent) {
+        const dollars = (totalCents / 100).toFixed(2);
+        elements.usageBasedRequestsCurrent.textContent = `$${dollars}`;
+        if (elements.usageBasedRequestsHardLimit) {
+            const hardLimitText = elements.usageBasedRequestsHardLimit.textContent;
+            if (hardLimitText && hardLimitText.startsWith('$')) {
+                const hardLimitValue = parseFloat(hardLimitText.substring(1));
+                const currentValue = parseFloat(dollars);
+                if (!isNaN(hardLimitValue) && !isNaN(currentValue) && hardLimitValue > 0) {
+                    const usagePercentage = (currentValue / hardLimitValue) * 100;
+                    elements.usageBasedRequestsCurrent.style.fontWeight = 'bold';
+                    if (usagePercentage >= 95) {
+                        elements.usageBasedRequestsCurrent.style.color = "#F93827";
+                    }
+                    else if (usagePercentage >= 75) {
+                        elements.usageBasedRequestsCurrent.style.color = "#E9B33B";
+                    }
+                    else if (usagePercentage >= 50) {
+                        elements.usageBasedRequestsCurrent.style.color = "#16C47F";
+                    }
+                    else {
+                        elements.usageBasedRequestsCurrent.style.color = "#16C47F";
+                    }
+                }
+            }
+        }
+    }
+    else {
+        console.error('usageBasedRequestsCurrent element not found');
+    }
+}
 function showError(message, elements, isAuthError = false) {
     if (elements.errorMessage) {
         if (isAuthError) {
@@ -80,6 +143,48 @@ function setLoading(isLoading, elements) {
     if (elements.statsContainer) {
         elements.statsContainer.style.display = isLoading ? "none" : "flex";
     }
+    if (elements.usageBasedRequests) {
+        elements.usageBasedRequests.style.display = isLoading ? "none" : "block";
+    }
+}
+async function fetchAndDisplayHardLimit(elements) {
+    try {
+        const response = await chrome.runtime.sendMessage({ action: "fetchHardLimit" });
+        if (response.success && response.hardLimit) {
+            updateHardLimit(response.hardLimit, elements);
+        }
+    }
+    catch (error) {
+        console.error("Failed to fetch hard limit", error);
+    }
+}
+async function fetchAndDisplayMonthlyInvoice(elements) {
+    try {
+        const response = await chrome.runtime.sendMessage({ action: "fetchMonthlyInvoice" });
+        if (response.success && response.totalCents !== undefined) {
+            updateCurrentUsage(response.totalCents, elements);
+        }
+        else {
+            console.error('Failed to get valid response from fetchMonthlyInvoice', response);
+        }
+    }
+    catch (error) {
+        console.error("Failed to fetch monthly invoice", error);
+    }
+}
+async function fetchPremiumStatus(elements) {
+    try {
+        const response = await chrome.runtime.sendMessage({ action: "fetchPremiumStatus" });
+        if (response.success) {
+            const isPremiumEnabled = response.isPremiumEnabled || false;
+            showPremiumStatus(isPremiumEnabled, elements);
+            return isPremiumEnabled;
+        }
+    }
+    catch (error) {
+        console.error("Failed to fetch premium status", error);
+    }
+    return false;
 }
 async function fetchStats(elements) {
     setLoading(true, elements);
@@ -89,6 +194,7 @@ async function fetchStats(elements) {
         if (response.success && response.stats) {
             updateStats(response.stats, elements);
             hideError(elements);
+            await fetchPremiumStatus(elements);
         }
         else {
             const isAuthError = response.error?.includes("401") || response.error?.includes("unauthorized");
@@ -114,11 +220,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (elements.refreshButton) {
         elements.refreshButton.addEventListener("click", () => fetchStats(elements));
     }
-    document.getElementById("githubLink")?.addEventListener("click", (e) => {
+    document.getElementById('githubLink')?.addEventListener('click', (e) => {
         e.preventDefault();
         if (e.target instanceof HTMLAnchorElement) {
             chrome.tabs.create({ url: e.target.href });
         }
     });
+    if (elements.usageBasedRequests) {
+        elements.usageBasedRequests.style.display = "none";
+    }
     await fetchStats(elements);
 });

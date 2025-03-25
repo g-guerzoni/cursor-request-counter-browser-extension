@@ -52,6 +52,15 @@
       transition: width 0.3s ease;
       border-radius: 4px;
     }
+    .usage-based-requests {
+      margin-top: 8px;
+    }
+    .usage-based-requests-limits {
+      margin-top: 1em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
     button {
       width: 100%;
       padding: 8px;
@@ -192,6 +201,20 @@
       </div>
       <div class="progress-container">
         <div class="progress-bar" id="requestsProgressBar"></div>
+      </div>
+    </div>
+    <div class="usage-based-requests" id="usageBasedRequests">
+      <div class="stat-row">
+        <span class="stat-label">Usage-based requests:</span>  
+        <span class="stat-value" id="usageBasedRequestsStatus" style="color: #F93827;">Off</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Usage:</span>  
+        <div class="usage-based-requests-limits">
+          <span id="usageBasedRequestsCurrent">-</span>
+          <span>/</span>
+          <span id="usageBasedRequestsHardLimit">-</span>
+        </div>
       </div>
     </div>
     <div class="error-message" id="errorMessage"></div>
