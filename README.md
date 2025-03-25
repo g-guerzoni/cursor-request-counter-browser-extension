@@ -102,6 +102,9 @@ If you have questions or concerns about this Privacy Policy, you can contact me 
 
 ## Changelog
 
+### v1.1.0
+- Feat: Introducing usage based limits and pricing 
+
 ### v1.0.2
 - Feat: Change the progress bar color based on the usage percentage.
 - Fix: Replacing `numRequestsTotal` by `numRequests`.
