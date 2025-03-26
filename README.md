@@ -1,76 +1,50 @@
-# Cursor Request Counter
+# Cursor Request Counter Browser Extension
 
-A Chrome extension to track your Cursor AI requests and usage in real-time.
+A browser extension to monitor your Cursor API usage, including request counts and token consumption.
+
+![Screenshot 1](https://github.com/user-attachments/assets/a18dab00-9855-4a7e-9a1f-f6252cfb7c8f)
 
 ## Features
 
-- Track the number of requests made
-- Monitor your remaining requests
-- View total tokens used
-- Track usage-based premium requests
-- Real-time progress bar
-- Automatic refresh on settings page
-- Dark mode interface
+- Real-time tracking of API requests made to Cursor.so
+- Visual progress bar showing request usage
+- Color-coded indicators for usage levels:
+  - Green: Normal usage (< 75%)
+  - Orange: Warning zone (75-94%)
+  - Red: Critical zone (95%+)
+- Token usage tracking
+- Easy access to Cursor settings
+- Automatic refresh functionality
+
+## 🟠 Google Chrome Extension Store
+Try out the extension in the Google Chrome Store.
+
+```bash
+https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii
+```
 
 ## Installation
 
-1. Clone this repository
+1. Clone this repository:
 ```bash
 git clone https://github.com/g-guerzoni/cursor-request-counter-browser-extension.git
 ```
 
-2. Install dependencies
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Build the extension
+3. Build the extension:
 ```bash
 npm run build
 ```
 
-4. Load the extension in Chrome
-- Open Chrome and navigate to `chrome://extensions`
-- Enable "Developer mode"
-- Click "Load unpacked"
-- Select the `dist` folder from the project directory
-
-## Development
-
-1. Install dependencies
-```bash
-npm install
-```
-
-2. Start development server
-```bash
-npm run dev
-```
-
-3. Make your changes
-- The extension will automatically rebuild when files change
-- Reload the extension in Chrome to see your changes
-
-## Project Structure
-
-```
-src/
-  types/           # TypeScript interfaces
-    cursor.ts
-  constants/       # Constants and configuration
-    index.ts
-  services/        # API services
-    api.ts
-  utils/          # Utility functions
-    dom.ts
-  styles/         # CSS styles
-    popup.css
-  assets/         # Icons and images
-    icons/
-  background.ts   # Chrome extension background script
-  popup.ts        # Popup UI logic
-  popup.html      # Popup UI structure
-```
+4. Load the extension in your browser:
+   - Open Chrome/Edge and go to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked"
+   - Select the `dist` folder from this project
 
 ## Contributing
 
@@ -84,10 +58,31 @@ src/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## Disclaimer
 
-- This is not an official product of Cursor
-- Icon made by [Freepik](https://www.freepik.com) from [www.flaticon.com](https://www.flaticon.com)
+This is not an official product of Cursor. It is a personal project created to help users monitor their API usage. 
+
+---
+
+## Changelog
+
+### v2.0.0
+- Refactoring the entire codebase by organizing the folder structures and splitting files.
+- Feat: Creating bundles while building with webpack.
+
+### v1.1.0
+- Feat: Introducing usage based limits and pricing 
+
+### v1.0.2
+- Feat: Change the progress bar color based on the usage percentage.
+- Fix: Replacing `numRequestsTotal` by `numRequests`.
+- Doc: Adding extension screenshots
+
+### v1.0.1
+- Fix: Open Github repo link in a new tab.
+
+### v1.0.0
+- Initial codebase.
 
 ---
 
@@ -114,23 +109,3 @@ By using my Google Chrome Extensions, you signify your consent and agreement to 
 ## Feedback
 
 If you have questions or concerns about this Privacy Policy, you can contact me by [email](mailto:guerzoni.guilherme@gmail.com).
-
-## Changelog
-
-### v2.0.0
-- Refactoring the entire codebase by organizing the folder structures and splitting files.
-- Feat: Creating bundles while building with webpack.
-
-### v1.1.0
-- Feat: Introducing usage based limits and pricing 
-
-### v1.0.2
-- Feat: Change the progress bar color based on the usage percentage.
-- Fix: Replacing `numRequestsTotal` by `numRequests`.
-- Doc: Adding extension screenshots
-
-### v1.0.1
-- Fix: Open Github repo link in a new tab.
-
-### v1.0.0
-- Initial codebase.
