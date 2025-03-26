@@ -111,6 +111,10 @@ button {
   transition: all var(--transition-duration) ease;
 }
 
+button:hover {
+  background-color: var(--color-border);
+}
+
 button svg {
   width: 16px;
   height: 16px;
@@ -118,8 +122,10 @@ button svg {
   transition: opacity var(--transition-duration) ease;
 }
 
-button:hover {
-  border-color: var(--color-text-primary);
+.login-button {
+  display: none;
+  background-color: var(--color-success);
+  font-weight: bold;
 }
 
 button:active {
@@ -148,17 +154,6 @@ button:disabled svg {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
-}
-
-.error-message a {
-  color: var(--color-error);
-  text-decoration: underline;
-  font-weight: 500;
-  transition: color var(--transition-duration) ease;
-}
-
-.error-message a:hover {
-  color: #630404;
 }
 
 .spinner {

@@ -32,6 +32,7 @@ export const ELEMENT_IDS = {
   TOKENS_USED: 'tokensUsed',
   REFRESH_BUTTON: 'refreshData',
   SETTINGS_BUTTON: 'goToSettings',
+  LOGIN_BUTTON: 'loginToCursor',
   SPINNER: 'loadingSpinner',
   ERROR_MESSAGE: 'errorMessage',
   STATS_CONTAINER: 'statsContainer',

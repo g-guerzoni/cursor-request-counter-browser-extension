@@ -51,7 +51,8 @@ export interface DOMElements {
   remainingRequests: HTMLElement | null;
   tokensUsed: HTMLElement | null;
   refreshButton: HTMLButtonElement | null;
-  settingsButton: HTMLButtonElement | null;
+  goToSettings: HTMLButtonElement | null;
+  loginToCursor: HTMLButtonElement | null;
   spinner: HTMLElement | null;
   errorMessage: HTMLElement | null;
   statsContainer: HTMLElement | null;

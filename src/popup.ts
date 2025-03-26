@@ -86,15 +86,21 @@ function showError(message: string, elements: DOMElements, isAuthError: boolean 
     if (isAuthError) {
       elements.errorMessage.innerHTML = `<p>${message}</p><p>${MESSAGES.AUTH.LOGIN_REQUIRED}</p>`;
       setElementDisplay(elements.errorMessage, "block");
+      setElementDisplay(elements.goToSettings, "none");
+      setElementDisplay(elements.loginToCursor, "flex");
     } else {
       setElementText(elements.errorMessage, message);
       setElementDisplay(elements.errorMessage, "block");
+      setElementDisplay(elements.goToSettings, "block");
+      setElementDisplay(elements.loginToCursor, "none");
     }
   }
 }
 
 function hideError(elements: DOMElements): void {
   setElementDisplay(elements.errorMessage, "none");
+  setElementDisplay(elements.goToSettings, "flex");
+  setElementDisplay(elements.loginToCursor, "none");
 }
 
 function setLoading(isLoading: boolean, elements: DOMElements): void {
@@ -169,12 +175,16 @@ async function fetchStats(elements: DOMElements): Promise<void> {
 document.addEventListener("DOMContentLoaded", async () => {
   const elements = getElements();
 
-  if (!elements.settingsButton) {
+  if (!elements.goToSettings || !elements.loginToCursor) {
     console.error(MESSAGES.ERRORS.SETTINGS_BUTTON_NOT_FOUND);
     return;
   }
 
-  elements.settingsButton.addEventListener("click", () => {
+  elements.goToSettings.addEventListener("click", () => {
+    chrome.tabs.create({ url: "https://www.cursor.com/settings" });
+  });
+
+  elements.loginToCursor.addEventListener("click", () => {
     chrome.tabs.create({ url: "https://www.cursor.com/settings" });
   });
 
