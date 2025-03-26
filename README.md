@@ -119,7 +119,7 @@ If you have questions or concerns about this Privacy Policy, you can contact me 
 
 ### v2.0.0
 - Refactoring the entire codebase by organizing the folder structures and splitting files.
-- Feat: Creating a bundle while building with webpack. 
+- Feat: Creating bundles while building with webpack.
 
 ### v1.1.0
 - Feat: Introducing usage based limits and pricing 
