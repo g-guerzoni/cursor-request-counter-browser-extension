@@ -1,20 +1,21 @@
 # Cursor Request Counter Browser Extension
 
-A browser extension to monitor your Cursor API usage, including request counts and token consumption.
+A browser extension to monitor your Cursor API usage, including request counts, token consumption and usage ($).
 
 ![Screenshot 1](https://github.com/user-attachments/assets/a18dab00-9855-4a7e-9a1f-f6252cfb7c8f)
 
 ## Features
 
-- Real-time tracking of API requests made to Cursor.so
+- Real-time tracking of API requests made to Cursor.com
+  - Premium requests
+  - Usage based counter ($)
 - Visual progress bar showing request usage
+- Token usage tracking
 - Color-coded indicators for usage levels:
   - Green: Normal usage (< 75%)
   - Orange: Warning zone (75-94%)
   - Red: Critical zone (95%+)
-- Token usage tracking
-- Easy access to Cursor settings
-- Automatic refresh functionality
+
 
 ## 🟠 Google Chrome Extension Store
 Try out the extension in the Google Chrome Store.
