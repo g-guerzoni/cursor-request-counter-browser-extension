@@ -3,180 +3,28 @@
 <head>
   <title>Cursor Request Counter</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #000;
-      width: 300px;
-      padding: 16px;
-      font-family: "GeistMono", ui-monospace, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, Courier New, monospace;
-      color: white;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      min-height: 150px;
-      position: relative;
-    }
-    .stats-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .stats-container.loading {
-      display: none;
-    }
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .stat-label {
-      color: white;
-      font-weight: 400;
-    }
-    .stat-value {
-      font-weight: 500;
-      color: #fff;
-    }
-    .progress-container {
-      margin-top: 8px;
-      width: 100%;
-      background-color: #333;
-      border-radius: 4px;
-      height: 8px;
-      overflow: hidden;
-    }
-    .progress-bar {
-      height: 100%;
-      transition: width 0.3s ease;
-      border-radius: 4px;
-    }
-    .usage-based-requests {
-      margin-top: 8px;
-    }
-    .usage-based-requests-limits {
-      margin-top: 1em;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 8px;
-      background: #000;
-      color: white;
-      border: 1px solid rgb(51 51 51/1);
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 12px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    button svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-      transition: opacity 0.2s ease;
-    }
-    button:hover {
-      border-color: white;
-    }
-    button:active {
-      transform: scale(0.98);
-    }
-    button:disabled {
-      background: #333;
-      cursor: not-allowed;
-      border-color: rgb(51 51 51/1);
-    }
-    button:disabled svg {
-      opacity: 0.5;
-    }
-    .error-message {
-      color: #950606;
-      text-align: center;
-      padding: 8px;
-      margin-top: auto;
-      display: none;
-      background-color: #fde8e8;
-      border: 1px solid #fecaca;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.4;
-    }
-    .error-message a {
-      color: #950606;
-      text-decoration: underline;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-    .error-message a:hover {
-      color: #630404;
-    }
-    .spines-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-    .spinner {
-      display: none;
-      width: 24px;
-      height: 24px;
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid rgb(99 161 26/1);
-      border-radius: 50%;
-      margin: 8px auto;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .buttons-container {
-      display: flex;
-      gap: 8px;
-    }
-    .buttons-container button {
-      margin-bottom: 0;
-    }
-    .footer {
-      text-align: center;
-      color: #838383;
-      font-size: 9px;
-    }
-    .footer a {
-      color: #838383;
-      cursor: pointer;
-      text-decoration: underline;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
-    .footer a:hover {
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="styles/popup.css">
 </head>
 <body>
   <div class="container">
     <div class="buttons-container">
       <button id="refreshData">
-        <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-        <svg width="14px" height="14px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
+        Refresh
+        <svg width="14" height="14" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none">
           <path fill="#ffffff" fill-rule="evenodd" d="M2.945 11.76a1 1 0 101.86-.736c-.892-2.256.024-4.967 2.316-6.29 1.987-1.147 4.354-.879 5.934.45l-2.49.295a1 1 0 10.234 1.986l4.31-.509a1 1 0 00.863-.793l.802-3.927a1 1 0 00-1.96-.4l-.385 1.889c-2.226-1.939-5.573-2.302-8.308-.723C3 4.803 1.675 8.549 2.945 11.76zm14.11-3.52a1 1 0 00-1.86.736c.892 2.256-.024 4.967-2.316 6.29-1.987 1.147-4.355.879-5.934-.45l2.49-.295a1 1 0 00-.234-1.986l-4.31.509a1 1 0 00-.863.793l-.802 3.927a1 1 0 001.96.4l.385-1.889c2.226 1.939 5.573 2.302 8.308.723 3.12-1.801 4.446-5.547 3.176-8.758z"/>
         </svg>
-        Refresh
       </button>
-      <button id="goToSettings">
-        <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-        <svg fill="#ffffff" width="14px" height="14px" viewBox="0 -8 72 72" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><title>cog</title><path d="M56.74,20.89l-1-2.31c3.33-7.53,3.11-7.75,2.46-8.41L54,6l-.42-.35h-.49c-.26,0-1,0-7.51,2.93l-2.38-1C40.09,0,39.77,0,38.87,0h-6c-.9,0-1.25,0-4.1,7.66l-2.37,1C22,6.78,19.45,5.84,18.75,5.84l-.56,0-4.58,4.49c-.7.65-.94.88,2.58,8.3l-1,2.3c-7.79,3-7.79,3.3-7.79,4.23v5.89c0,.92,0,1.25,7.82,4l1,2.29c-3.33,7.53-3.11,7.76-2.46,8.41L18,50l.42.37h.5c.25,0,1,0,7.5-3l2.38,1C31.9,56,32.21,56,33.12,56h6c.92,0,1.25,0,4.11-7.66l2.39-1c4.37,1.85,6.93,2.79,7.61,2.79l.57,0,4.62-4.52c.66-.66.89-.89-2.62-8.28l1-2.3c7.81-3,7.81-3.33,7.81-4.23V24.93C64.57,24,64.57,23.68,56.74,20.89ZM36,37.8A9.8,9.8,0,1,1,46,28,9.91,9.91,0,0,1,36,37.8Z"/></svg>
+      <button id="goToSettings" class="settings-button">
         Cursor Settings
+        <svg fill="#ffffff" width="14" height="14" viewBox="0 -8 72 72" xmlns="http://www.w3.org/2000/svg">
+          <path d="M56.74,20.89l-1-2.31c3.33-7.53,3.11-7.75,2.46-8.41L54,6l-.42-.35h-.49c-.26,0-1,0-7.51,2.93l-2.38-1C40.09,0,39.77,0,38.87,0h-6c-.9,0-1.25,0-4.1,7.66l-2.37,1C22,6.78,19.45,5.84,18.75,5.84l-.56,0-4.58,4.49c-.7.65-.94.88,2.58,8.3l-1,2.3c-7.79,3-7.79,3.3-7.79,4.23v5.89c0,.92,0,1.25,7.82,4l1,2.29c-3.33,7.53-3.11,7.76-2.46,8.41L18,50l.42.37h.5c.25,0,1,0,7.5-3l2.38,1C31.9,56,32.21,56,33.12,56h6c.92,0,1.25,0,4.11-7.66l2.39-1c4.37,1.85,6.93,2.79,7.61,2.79l.57,0,4.62-4.52c.66-.66.89-.89-2.62-8.28l1-2.3c7.81-3,7.81-3.33,7.81-4.23V24.93C64.57,24,64.57,23.68,56.74,20.89ZM36,37.8A9.8,9.8,0,1,1,46,28,9.91,9.91,0,0,1,36,37.8Z"/>
+        </svg>
+      </button>
+      <button id="loginToCursor" class="login-button">
+        Login to Cursor
+        <svg fill="#ffffff" width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20,21V3H13a1,1,0,0,1,0-2h8a1,1,0,0,1,1,1V22a1,1,0,0,1-1,1H13a1,1,0,0,1,0-2ZM2,12a1,1,0,0,0,1,1H14.586l-2.293,2.293a1,1,0,1,0,1.414,1.414l4-4a1,1,0,0,0,0-1.414l-4-4a1,1,0,1,0-1.414,1.414L14.586,11H3A1,1,0,0,0,2,12Z"/>
+        </svg>
       </button>
     </div>
     <div class="spines-container">
@@ -206,7 +54,7 @@
     <div class="usage-based-requests" id="usageBasedRequests">
       <div class="stat-row">
         <span class="stat-label">Usage-based requests:</span>  
-        <span class="stat-value" id="usageBasedRequestsStatus" style="color: #F93827;">Off</span>
+        <span class="stat-value" id="usageBasedRequestsStatus">Off</span>
       </div>
       <div class="stat-row">
         <span class="stat-label">Usage:</span>  
@@ -222,6 +70,6 @@
       <p>This is not an official product of Cursor. It is a personal <a id="githubLink" href="https://github.com/g-guerzoni/cursor-request-counter-browser-extension" target="_blank">GitHub</a> project.</p>
     </div>
   </div>
-  <script src="popup.js"></script>
+  <script src="popup.js" type="module"></script>
 </body>
 </html> 
