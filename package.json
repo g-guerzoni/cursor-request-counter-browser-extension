@@ -1,7 +1,7 @@
 {
   "name": "cursor-request-counter",
-  "version": "1.0.0",
-  "description": "Track your Cursor AI requests and usage in real-time",
+  "version": "2.0.0",
+  "description": "Track your Cursor AI (cursor.com) requests and usage in real-time",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "node scripts/build.js",
