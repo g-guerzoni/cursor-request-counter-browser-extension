@@ -1,6 +1,6 @@
 # Cursor Request Counter Browser Extension
 
-A browser extension to monitor your Cursor API usage, including request counts, token consumption and usage ($).
+A browser extension to monitor your Cursor API usage, including request counts, token consumption and usage.
 
 [![Try out the extension in the Google Chrome Store.](images/chrome-store.png)](https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii)
 
