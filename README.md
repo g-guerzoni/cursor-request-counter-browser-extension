@@ -2,6 +2,8 @@
 
 A browser extension to monitor your Cursor API usage, including request counts, token consumption and usage ($).
 
+[![Try out the extension in the Google Chrome Store.](images/chrome-store.png)](https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii)
+
 ![Screenshot 1](https://github.com/user-attachments/assets/a18dab00-9855-4a7e-9a1f-f6252cfb7c8f)
 
 ## Features
@@ -15,14 +17,6 @@ A browser extension to monitor your Cursor API usage, including request counts, 
   - Green: Normal usage (< 75%)
   - Orange: Warning zone (75-94%)
   - Red: Critical zone (95%+)
-
-
-## 🟠 Google Chrome Extension Store
-Try out the extension in the Google Chrome Store.
-
-```bash
-https://chromewebstore.google.com/detail/cursor-request-counter/dafeoklakifgkoehabbdfljakipohaii
-```
 
 ## Installation
 
