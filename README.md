@@ -60,6 +60,7 @@ This is not an official product of Cursor. It is a personal project created to h
 ## Keywords
 
 cursor, cursor ai, cursor.com, api monitor, usage tracker, request counter, token counter, api limit monitor, real-time monitoring, productivity tool, ai tool, premium usage, gpt, chat gpt, claude, claude max
+
 ---
 
 ## Changelog
