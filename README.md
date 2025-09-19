@@ -1,4 +1,4 @@
-# Cursor Request Counter Browser Extension
+# Cursor Request Counter Browser Extension (Deprecated)
 
 A browser extension to monitor your Cursor API usage, including request counts, token consumption and usage.
 
